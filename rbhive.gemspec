@@ -5,7 +5,7 @@ require 'rbhive/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'rbhive'
-  spec.version = RBHive::VERSION
+  spec.version = RBHive::STAQ_VERSION
   spec.authors = %w(Forward3D KolobocK)
   spec.description = 'Simple gem for executing Hive queries and collecting the results'
   spec.summary = 'Simple gem for executing Hive queries'
