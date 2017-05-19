@@ -7,8 +7,18 @@
 require 'thrift'
 require_relative 'fb303_types'
 
+# Note, the thrift compiler generates the following classes and modules in the
+# root namespace and some of the classes conflict with standard ruby or rails
+# classes. Since we do not have the .thrift definition file in this gem to
+# regenerate the thrift client classes we have prefixed each root level class
+# with the following HiveMetaStoreTypes module and made the appropriate changes
+# in thrift/thrift_hive_metastore and thrift/thrift_hive. If a future version
+# of rbhive ever gets released (appears to have been abandoned in late 2015)
+# this will need to be reapplied when merging this fork.
+module HiveMetaStoreTypes
+end
 
-module HiveObjectType
+module HiveMetaStoreTypes::HiveObjectType
   GLOBAL = 1
   DATABASE = 2
   TABLE = 3
@@ -18,7 +28,7 @@ module HiveObjectType
   VALID_VALUES = Set.new([GLOBAL, DATABASE, TABLE, PARTITION, COLUMN]).freeze
 end
 
-module PrincipalType
+module HiveMetaStoreTypes::PrincipalType
   USER = 1
   ROLE = 2
   GROUP = 3
@@ -26,7 +36,7 @@ module PrincipalType
   VALID_VALUES = Set.new([USER, ROLE, GROUP]).freeze
 end
 
-class Version
+class HiveMetaStoreTypes::Version
   include ::Thrift::Struct, ::Thrift::Struct_Union
   VERSION = 1
   COMMENTS = 2
@@ -44,7 +54,7 @@ class Version
   ::Thrift::Struct.generate_accessors self
 end
 
-class FieldSchema
+class HiveMetaStoreTypes::FieldSchema
   include ::Thrift::Struct, ::Thrift::Struct_Union
   NAME = 1
   TYPE = 2
@@ -64,7 +74,7 @@ class FieldSchema
   ::Thrift::Struct.generate_accessors self
 end
 
-class Type
+class HiveMetaStoreTypes::Type
   include ::Thrift::Struct, ::Thrift::Struct_Union
   NAME = 1
   TYPE1 = 2
@@ -75,7 +85,7 @@ class Type
     NAME => {:type => ::Thrift::Types::STRING, :name => 'name'},
     TYPE1 => {:type => ::Thrift::Types::STRING, :name => 'type1', :optional => true},
     TYPE2 => {:type => ::Thrift::Types::STRING, :name => 'type2', :optional => true},
-    FIELDS => {:type => ::Thrift::Types::LIST, :name => 'fields', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}, :optional => true}
+    FIELDS => {:type => ::Thrift::Types::LIST, :name => 'fields', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}, :optional => true}
   }
 
   def struct_fields; FIELDS; end
@@ -86,7 +96,7 @@ class Type
   ::Thrift::Struct.generate_accessors self
 end
 
-class HiveObjectRef
+class HiveMetaStoreTypes::HiveObjectRef
   include ::Thrift::Struct, ::Thrift::Struct_Union
   OBJECTTYPE = 1
   DBNAME = 2
@@ -95,7 +105,7 @@ class HiveObjectRef
   COLUMNNAME = 5
 
   FIELDS = {
-    OBJECTTYPE => {:type => ::Thrift::Types::I32, :name => 'objectType', :enum_class => ::HiveObjectType},
+    OBJECTTYPE => {:type => ::Thrift::Types::I32, :name => 'objectType', :enum_class => HiveMetaStoreTypes::HiveObjectType},
     DBNAME => {:type => ::Thrift::Types::STRING, :name => 'dbName'},
     OBJECTNAME => {:type => ::Thrift::Types::STRING, :name => 'objectName'},
     PARTVALUES => {:type => ::Thrift::Types::LIST, :name => 'partValues', :element => {:type => ::Thrift::Types::STRING}},
@@ -105,7 +115,7 @@ class HiveObjectRef
   def struct_fields; FIELDS; end
 
   def validate
-    unless @objectType.nil? || ::HiveObjectType::VALID_VALUES.include?(@objectType)
+    unless @objectType.nil? || HiveMetaStoreTypes::HiveObjectType::VALID_VALUES.include?(@objectType)
       raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field objectType!')
     end
   end
@@ -113,7 +123,7 @@ class HiveObjectRef
   ::Thrift::Struct.generate_accessors self
 end
 
-class PrivilegeGrantInfo
+class HiveMetaStoreTypes::PrivilegeGrantInfo
   include ::Thrift::Struct, ::Thrift::Struct_Union
   PRIVILEGE = 1
   CREATETIME = 2
@@ -125,14 +135,14 @@ class PrivilegeGrantInfo
     PRIVILEGE => {:type => ::Thrift::Types::STRING, :name => 'privilege'},
     CREATETIME => {:type => ::Thrift::Types::I32, :name => 'createTime'},
     GRANTOR => {:type => ::Thrift::Types::STRING, :name => 'grantor'},
-    GRANTORTYPE => {:type => ::Thrift::Types::I32, :name => 'grantorType', :enum_class => ::PrincipalType},
+    GRANTORTYPE => {:type => ::Thrift::Types::I32, :name => 'grantorType', :enum_class => HiveMetaStoreTypes::PrincipalType},
     GRANTOPTION => {:type => ::Thrift::Types::BOOL, :name => 'grantOption'}
   }
 
   def struct_fields; FIELDS; end
 
   def validate
-    unless @grantorType.nil? || ::PrincipalType::VALID_VALUES.include?(@grantorType)
+    unless @grantorType.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@grantorType)
       raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field grantorType!')
     end
   end
@@ -140,7 +150,7 @@ class PrivilegeGrantInfo
   ::Thrift::Struct.generate_accessors self
 end
 
-class HiveObjectPrivilege
+class HiveMetaStoreTypes::HiveObjectPrivilege
   include ::Thrift::Struct, ::Thrift::Struct_Union
   HIVEOBJECT = 1
   PRINCIPALNAME = 2
@@ -148,16 +158,16 @@ class HiveObjectPrivilege
   GRANTINFO = 4
 
   FIELDS = {
-    HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => ::HiveObjectRef},
+    HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => HiveMetaStoreTypes::HiveObjectRef},
     PRINCIPALNAME => {:type => ::Thrift::Types::STRING, :name => 'principalName'},
-    PRINCIPALTYPE => {:type => ::Thrift::Types::I32, :name => 'principalType', :enum_class => ::PrincipalType},
-    GRANTINFO => {:type => ::Thrift::Types::STRUCT, :name => 'grantInfo', :class => ::PrivilegeGrantInfo}
+    PRINCIPALTYPE => {:type => ::Thrift::Types::I32, :name => 'principalType', :enum_class => HiveMetaStoreTypes::PrincipalType},
+    GRANTINFO => {:type => ::Thrift::Types::STRUCT, :name => 'grantInfo', :class => HiveMetaStoreTypes::PrivilegeGrantInfo}
   }
 
   def struct_fields; FIELDS; end
 
   def validate
-    unless @principalType.nil? || ::PrincipalType::VALID_VALUES.include?(@principalType)
+    unless @principalType.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@principalType)
       raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field principalType!')
     end
   end
@@ -165,12 +175,12 @@ class HiveObjectPrivilege
   ::Thrift::Struct.generate_accessors self
 end
 
-class PrivilegeBag
+class HiveMetaStoreTypes::PrivilegeBag
   include ::Thrift::Struct, ::Thrift::Struct_Union
   PRIVILEGES = 1
 
   FIELDS = {
-    PRIVILEGES => {:type => ::Thrift::Types::LIST, :name => 'privileges', :element => {:type => ::Thrift::Types::STRUCT, :class => ::HiveObjectPrivilege}}
+    PRIVILEGES => {:type => ::Thrift::Types::LIST, :name => 'privileges', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::HiveObjectPrivilege}}
   }
 
   def struct_fields; FIELDS; end
@@ -181,16 +191,16 @@ class PrivilegeBag
   ::Thrift::Struct.generate_accessors self
 end
 
-class PrincipalPrivilegeSet
+class HiveMetaStoreTypes::PrincipalPrivilegeSet
   include ::Thrift::Struct, ::Thrift::Struct_Union
   USERPRIVILEGES = 1
   GROUPPRIVILEGES = 2
   ROLEPRIVILEGES = 3
 
   FIELDS = {
-    USERPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'userPrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => ::PrivilegeGrantInfo}}},
-    GROUPPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'groupPrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => ::PrivilegeGrantInfo}}},
-    ROLEPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'rolePrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => ::PrivilegeGrantInfo}}}
+    USERPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'userPrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::PrivilegeGrantInfo}}},
+    GROUPPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'groupPrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::PrivilegeGrantInfo}}},
+    ROLEPRIVILEGES => {:type => ::Thrift::Types::MAP, :name => 'rolePrivileges', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::LIST, :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::PrivilegeGrantInfo}}}
   }
 
   def struct_fields; FIELDS; end
@@ -201,7 +211,7 @@ class PrincipalPrivilegeSet
   ::Thrift::Struct.generate_accessors self
 end
 
-class Role
+class HiveMetaStoreTypes::Role
   include ::Thrift::Struct, ::Thrift::Struct_Union
   ROLENAME = 1
   CREATETIME = 2
@@ -221,7 +231,7 @@ class Role
   ::Thrift::Struct.generate_accessors self
 end
 
-class Database
+class HiveMetaStoreTypes::Database
   include ::Thrift::Struct, ::Thrift::Struct_Union
   NAME = 1
   DESCRIPTION = 2
@@ -234,7 +244,7 @@ class Database
     DESCRIPTION => {:type => ::Thrift::Types::STRING, :name => 'description'},
     LOCATIONURI => {:type => ::Thrift::Types::STRING, :name => 'locationUri'},
     PARAMETERS => {:type => ::Thrift::Types::MAP, :name => 'parameters', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}},
-    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => ::PrincipalPrivilegeSet, :optional => true}
+    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => HiveMetaStoreTypes::PrincipalPrivilegeSet, :optional => true}
   }
 
   def struct_fields; FIELDS; end
@@ -245,7 +255,7 @@ class Database
   ::Thrift::Struct.generate_accessors self
 end
 
-class SerDeInfo
+class HiveMetaStoreTypes::SerDeInfo
   include ::Thrift::Struct, ::Thrift::Struct_Union
   NAME = 1
   SERIALIZATIONLIB = 2
@@ -265,7 +275,7 @@ class SerDeInfo
   ::Thrift::Struct.generate_accessors self
 end
 
-class Order
+class HiveMetaStoreTypes::Order
   include ::Thrift::Struct, ::Thrift::Struct_Union
   COL = 1
   ORDER = 2
@@ -283,7 +293,7 @@ class Order
   ::Thrift::Struct.generate_accessors self
 end
 
-class StorageDescriptor
+class HiveMetaStoreTypes::StorageDescriptor
   include ::Thrift::Struct, ::Thrift::Struct_Union
   COLS = 1
   LOCATION = 2
@@ -297,15 +307,15 @@ class StorageDescriptor
   PARAMETERS = 10
 
   FIELDS = {
-    COLS => {:type => ::Thrift::Types::LIST, :name => 'cols', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}},
+    COLS => {:type => ::Thrift::Types::LIST, :name => 'cols', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}},
     LOCATION => {:type => ::Thrift::Types::STRING, :name => 'location'},
     INPUTFORMAT => {:type => ::Thrift::Types::STRING, :name => 'inputFormat'},
     OUTPUTFORMAT => {:type => ::Thrift::Types::STRING, :name => 'outputFormat'},
     COMPRESSED => {:type => ::Thrift::Types::BOOL, :name => 'compressed'},
     NUMBUCKETS => {:type => ::Thrift::Types::I32, :name => 'numBuckets'},
-    SERDEINFO => {:type => ::Thrift::Types::STRUCT, :name => 'serdeInfo', :class => ::SerDeInfo},
+    SERDEINFO => {:type => ::Thrift::Types::STRUCT, :name => 'serdeInfo', :class => HiveMetaStoreTypes::SerDeInfo},
     BUCKETCOLS => {:type => ::Thrift::Types::LIST, :name => 'bucketCols', :element => {:type => ::Thrift::Types::STRING}},
-    SORTCOLS => {:type => ::Thrift::Types::LIST, :name => 'sortCols', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Order}},
+    SORTCOLS => {:type => ::Thrift::Types::LIST, :name => 'sortCols', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Order}},
     PARAMETERS => {:type => ::Thrift::Types::MAP, :name => 'parameters', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}}
   }
 
@@ -317,7 +327,7 @@ class StorageDescriptor
   ::Thrift::Struct.generate_accessors self
 end
 
-class Table
+class HiveMetaStoreTypes::Table
   include ::Thrift::Struct, ::Thrift::Struct_Union
   TABLENAME = 1
   DBNAME = 2
@@ -340,13 +350,13 @@ class Table
     CREATETIME => {:type => ::Thrift::Types::I32, :name => 'createTime'},
     LASTACCESSTIME => {:type => ::Thrift::Types::I32, :name => 'lastAccessTime'},
     RETENTION => {:type => ::Thrift::Types::I32, :name => 'retention'},
-    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => ::StorageDescriptor},
-    PARTITIONKEYS => {:type => ::Thrift::Types::LIST, :name => 'partitionKeys', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}},
+    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => HiveMetaStoreTypes::StorageDescriptor},
+    PARTITIONKEYS => {:type => ::Thrift::Types::LIST, :name => 'partitionKeys', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}},
     PARAMETERS => {:type => ::Thrift::Types::MAP, :name => 'parameters', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}},
     VIEWORIGINALTEXT => {:type => ::Thrift::Types::STRING, :name => 'viewOriginalText'},
     VIEWEXPANDEDTEXT => {:type => ::Thrift::Types::STRING, :name => 'viewExpandedText'},
     TABLETYPE => {:type => ::Thrift::Types::STRING, :name => 'tableType'},
-    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => ::PrincipalPrivilegeSet, :optional => true}
+    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => HiveMetaStoreTypes::PrincipalPrivilegeSet, :optional => true}
   }
 
   def struct_fields; FIELDS; end
@@ -357,7 +367,7 @@ class Table
   ::Thrift::Struct.generate_accessors self
 end
 
-class Partition
+class HiveMetaStoreTypes::Partition
   include ::Thrift::Struct, ::Thrift::Struct_Union
   VALUES = 1
   DBNAME = 2
@@ -374,9 +384,9 @@ class Partition
     TABLENAME => {:type => ::Thrift::Types::STRING, :name => 'tableName'},
     CREATETIME => {:type => ::Thrift::Types::I32, :name => 'createTime'},
     LASTACCESSTIME => {:type => ::Thrift::Types::I32, :name => 'lastAccessTime'},
-    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => ::StorageDescriptor},
+    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => HiveMetaStoreTypes::StorageDescriptor},
     PARAMETERS => {:type => ::Thrift::Types::MAP, :name => 'parameters', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}},
-    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => ::PrincipalPrivilegeSet, :optional => true}
+    PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => HiveMetaStoreTypes::PrincipalPrivilegeSet, :optional => true}
   }
 
   def struct_fields; FIELDS; end
@@ -387,7 +397,7 @@ class Partition
   ::Thrift::Struct.generate_accessors self
 end
 
-class Index
+class HiveMetaStoreTypes::Index
   include ::Thrift::Struct, ::Thrift::Struct_Union
   INDEXNAME = 1
   INDEXHANDLERCLASS = 2
@@ -408,7 +418,7 @@ class Index
     CREATETIME => {:type => ::Thrift::Types::I32, :name => 'createTime'},
     LASTACCESSTIME => {:type => ::Thrift::Types::I32, :name => 'lastAccessTime'},
     INDEXTABLENAME => {:type => ::Thrift::Types::STRING, :name => 'indexTableName'},
-    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => ::StorageDescriptor},
+    SD => {:type => ::Thrift::Types::STRUCT, :name => 'sd', :class => HiveMetaStoreTypes::StorageDescriptor},
     PARAMETERS => {:type => ::Thrift::Types::MAP, :name => 'parameters', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}},
     DEFERREDREBUILD => {:type => ::Thrift::Types::BOOL, :name => 'deferredRebuild'}
   }
@@ -421,13 +431,13 @@ class Index
   ::Thrift::Struct.generate_accessors self
 end
 
-class Schema
+class HiveMetaStoreTypes::Schema
   include ::Thrift::Struct, ::Thrift::Struct_Union
   FIELDSCHEMAS = 1
   PROPERTIES = 2
 
   FIELDS = {
-    FIELDSCHEMAS => {:type => ::Thrift::Types::LIST, :name => 'fieldSchemas', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}},
+    FIELDSCHEMAS => {:type => ::Thrift::Types::LIST, :name => 'fieldSchemas', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}},
     PROPERTIES => {:type => ::Thrift::Types::MAP, :name => 'properties', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}}
   }
 
@@ -439,7 +449,7 @@ class Schema
   ::Thrift::Struct.generate_accessors self
 end
 
-class MetaException < ::Thrift::Exception
+class HiveMetaStoreTypes::MetaException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -460,7 +470,7 @@ class MetaException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class UnknownTableException < ::Thrift::Exception
+class HiveMetaStoreTypes::UnknownTableException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -481,7 +491,7 @@ class UnknownTableException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class UnknownDBException < ::Thrift::Exception
+class HiveMetaStoreTypes::UnknownDBException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -502,7 +512,7 @@ class UnknownDBException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class AlreadyExistsException < ::Thrift::Exception
+class HiveMetaStoreTypes::AlreadyExistsException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -523,7 +533,7 @@ class AlreadyExistsException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class InvalidObjectException < ::Thrift::Exception
+class HiveMetaStoreTypes::InvalidObjectException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -544,7 +554,7 @@ class InvalidObjectException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class NoSuchObjectException < ::Thrift::Exception
+class HiveMetaStoreTypes::NoSuchObjectException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -565,7 +575,7 @@ class NoSuchObjectException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class IndexAlreadyExistsException < ::Thrift::Exception
+class HiveMetaStoreTypes::IndexAlreadyExistsException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -586,7 +596,7 @@ class IndexAlreadyExistsException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class InvalidOperationException < ::Thrift::Exception
+class HiveMetaStoreTypes::InvalidOperationException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()
@@ -607,7 +617,7 @@ class InvalidOperationException < ::Thrift::Exception
   ::Thrift::Struct.generate_accessors self
 end
 
-class ConfigValSecurityException < ::Thrift::Exception
+class HiveMetaStoreTypes::ConfigValSecurityException < ::Thrift::Exception
   include ::Thrift::Struct, ::Thrift::Struct_Union
   def initialize(message=nil)
     super()

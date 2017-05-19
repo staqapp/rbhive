@@ -11,7 +11,7 @@ require_relative 'hive_service_types'
 module Hive
   module Thrift
     module ThriftHive
-      class Client < ::ThriftHiveMetastore::Client 
+      class Client < ::ThriftHiveMetastore::Client
         include ::Thrift::Client
 
         def execute(query)
@@ -143,7 +143,7 @@ module Hive
 
       end
 
-      class Processor < ::ThriftHiveMetastore::Processor 
+      class Processor < ::ThriftHiveMetastore::Processor
         include ::Thrift::Processor
 
         def process_execute(seqid, iprot, oprot)
@@ -391,7 +391,7 @@ module Hive
         EX = 1
 
         FIELDS = {
-          SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Schema},
+          SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Schema},
           EX => {:type => ::Thrift::Types::STRUCT, :name => 'ex', :class => ::Hive::Thrift::HiveServerException}
         }
 
@@ -424,7 +424,7 @@ module Hive
         EX = 1
 
         FIELDS = {
-          SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Schema},
+          SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Schema},
           EX => {:type => ::Thrift::Types::STRUCT, :name => 'ex', :class => ::Hive::Thrift::HiveServerException}
         }
 

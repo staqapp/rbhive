@@ -9,7 +9,7 @@ require_relative 'facebook_service'
 require_relative 'hive_metastore_types'
 
 module ThriftHiveMetastore
-  class Client < ::FacebookService::Client 
+  class Client < ::FacebookService::Client
     include ::Thrift::Client
 
     def create_database(database)
@@ -959,7 +959,7 @@ module ThriftHiveMetastore
 
   end
 
-  class Processor < ::FacebookService::Processor 
+  class Processor < ::FacebookService::Processor
     include ::Thrift::Processor
 
     def process_create_database(seqid, iprot, oprot)
@@ -967,11 +967,11 @@ module ThriftHiveMetastore
       result = Create_database_result.new()
       begin
         @handler.create_database(args.database)
-      rescue ::AlreadyExistsException => o1
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o1
         result.o1 = o1
-      rescue ::InvalidObjectException => o2
+      rescue HiveMetaStoreTypes::InvalidObjectException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'create_database', seqid)
@@ -982,9 +982,9 @@ module ThriftHiveMetastore
       result = Get_database_result.new()
       begin
         result.success = @handler.get_database(args.name)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_database', seqid)
@@ -995,11 +995,11 @@ module ThriftHiveMetastore
       result = Drop_database_result.new()
       begin
         @handler.drop_database(args.name, args.deleteData)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::InvalidOperationException => o2
+      rescue HiveMetaStoreTypes::InvalidOperationException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'drop_database', seqid)
@@ -1010,7 +1010,7 @@ module ThriftHiveMetastore
       result = Get_databases_result.new()
       begin
         result.success = @handler.get_databases(args.pattern)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_databases', seqid)
@@ -1021,7 +1021,7 @@ module ThriftHiveMetastore
       result = Get_all_databases_result.new()
       begin
         result.success = @handler.get_all_databases()
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_all_databases', seqid)
@@ -1032,9 +1032,9 @@ module ThriftHiveMetastore
       result = Alter_database_result.new()
       begin
         @handler.alter_database(args.dbname, args.db)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'alter_database', seqid)
@@ -1045,9 +1045,9 @@ module ThriftHiveMetastore
       result = Get_type_result.new()
       begin
         result.success = @handler.get_type(args.name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_type', seqid)
@@ -1058,11 +1058,11 @@ module ThriftHiveMetastore
       result = Create_type_result.new()
       begin
         result.success = @handler.create_type(args.type)
-      rescue ::AlreadyExistsException => o1
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o1
         result.o1 = o1
-      rescue ::InvalidObjectException => o2
+      rescue HiveMetaStoreTypes::InvalidObjectException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'create_type', seqid)
@@ -1073,9 +1073,9 @@ module ThriftHiveMetastore
       result = Drop_type_result.new()
       begin
         result.success = @handler.drop_type(args.type)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'drop_type', seqid)
@@ -1086,7 +1086,7 @@ module ThriftHiveMetastore
       result = Get_type_all_result.new()
       begin
         result.success = @handler.get_type_all(args.name)
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_type_all', seqid)
@@ -1097,11 +1097,11 @@ module ThriftHiveMetastore
       result = Get_fields_result.new()
       begin
         result.success = @handler.get_fields(args.db_name, args.table_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::UnknownTableException => o2
+      rescue HiveMetaStoreTypes::UnknownTableException => o2
         result.o2 = o2
-      rescue ::UnknownDBException => o3
+      rescue HiveMetaStoreTypes::UnknownDBException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'get_fields', seqid)
@@ -1112,11 +1112,11 @@ module ThriftHiveMetastore
       result = Get_schema_result.new()
       begin
         result.success = @handler.get_schema(args.db_name, args.table_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::UnknownTableException => o2
+      rescue HiveMetaStoreTypes::UnknownTableException => o2
         result.o2 = o2
-      rescue ::UnknownDBException => o3
+      rescue HiveMetaStoreTypes::UnknownDBException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'get_schema', seqid)
@@ -1127,13 +1127,13 @@ module ThriftHiveMetastore
       result = Create_table_result.new()
       begin
         @handler.create_table(args.tbl)
-      rescue ::AlreadyExistsException => o1
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o1
         result.o1 = o1
-      rescue ::InvalidObjectException => o2
+      rescue HiveMetaStoreTypes::InvalidObjectException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
-      rescue ::NoSuchObjectException => o4
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o4
         result.o4 = o4
       end
       write_result(result, oprot, 'create_table', seqid)
@@ -1144,9 +1144,9 @@ module ThriftHiveMetastore
       result = Drop_table_result.new()
       begin
         @handler.drop_table(args.dbname, args.name, args.deleteData)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'drop_table', seqid)
@@ -1157,7 +1157,7 @@ module ThriftHiveMetastore
       result = Get_tables_result.new()
       begin
         result.success = @handler.get_tables(args.db_name, args.pattern)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_tables', seqid)
@@ -1168,7 +1168,7 @@ module ThriftHiveMetastore
       result = Get_all_tables_result.new()
       begin
         result.success = @handler.get_all_tables(args.db_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_all_tables', seqid)
@@ -1179,9 +1179,9 @@ module ThriftHiveMetastore
       result = Get_table_result.new()
       begin
         result.success = @handler.get_table(args.dbname, args.tbl_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_table', seqid)
@@ -1192,9 +1192,9 @@ module ThriftHiveMetastore
       result = Alter_table_result.new()
       begin
         @handler.alter_table(args.dbname, args.tbl_name, args.new_tbl)
-      rescue ::InvalidOperationException => o1
+      rescue HiveMetaStoreTypes::InvalidOperationException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'alter_table', seqid)
@@ -1205,11 +1205,11 @@ module ThriftHiveMetastore
       result = Add_partition_result.new()
       begin
         result.success = @handler.add_partition(args.new_part)
-      rescue ::InvalidObjectException => o1
+      rescue HiveMetaStoreTypes::InvalidObjectException => o1
         result.o1 = o1
-      rescue ::AlreadyExistsException => o2
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'add_partition', seqid)
@@ -1220,11 +1220,11 @@ module ThriftHiveMetastore
       result = Append_partition_result.new()
       begin
         result.success = @handler.append_partition(args.db_name, args.tbl_name, args.part_vals)
-      rescue ::InvalidObjectException => o1
+      rescue HiveMetaStoreTypes::InvalidObjectException => o1
         result.o1 = o1
-      rescue ::AlreadyExistsException => o2
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'append_partition', seqid)
@@ -1235,11 +1235,11 @@ module ThriftHiveMetastore
       result = Append_partition_by_name_result.new()
       begin
         result.success = @handler.append_partition_by_name(args.db_name, args.tbl_name, args.part_name)
-      rescue ::InvalidObjectException => o1
+      rescue HiveMetaStoreTypes::InvalidObjectException => o1
         result.o1 = o1
-      rescue ::AlreadyExistsException => o2
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'append_partition_by_name', seqid)
@@ -1250,9 +1250,9 @@ module ThriftHiveMetastore
       result = Drop_partition_result.new()
       begin
         result.success = @handler.drop_partition(args.db_name, args.tbl_name, args.part_vals, args.deleteData)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'drop_partition', seqid)
@@ -1263,9 +1263,9 @@ module ThriftHiveMetastore
       result = Drop_partition_by_name_result.new()
       begin
         result.success = @handler.drop_partition_by_name(args.db_name, args.tbl_name, args.part_name, args.deleteData)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'drop_partition_by_name', seqid)
@@ -1276,9 +1276,9 @@ module ThriftHiveMetastore
       result = Get_partition_result.new()
       begin
         result.success = @handler.get_partition(args.db_name, args.tbl_name, args.part_vals)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partition', seqid)
@@ -1289,9 +1289,9 @@ module ThriftHiveMetastore
       result = Get_partition_with_auth_result.new()
       begin
         result.success = @handler.get_partition_with_auth(args.db_name, args.tbl_name, args.part_vals, args.user_name, args.group_names)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partition_with_auth', seqid)
@@ -1302,9 +1302,9 @@ module ThriftHiveMetastore
       result = Get_partition_by_name_result.new()
       begin
         result.success = @handler.get_partition_by_name(args.db_name, args.tbl_name, args.part_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partition_by_name', seqid)
@@ -1315,9 +1315,9 @@ module ThriftHiveMetastore
       result = Get_partitions_result.new()
       begin
         result.success = @handler.get_partitions(args.db_name, args.tbl_name, args.max_parts)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partitions', seqid)
@@ -1328,9 +1328,9 @@ module ThriftHiveMetastore
       result = Get_partitions_with_auth_result.new()
       begin
         result.success = @handler.get_partitions_with_auth(args.db_name, args.tbl_name, args.max_parts, args.user_name, args.group_names)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partitions_with_auth', seqid)
@@ -1341,7 +1341,7 @@ module ThriftHiveMetastore
       result = Get_partition_names_result.new()
       begin
         result.success = @handler.get_partition_names(args.db_name, args.tbl_name, args.max_parts)
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partition_names', seqid)
@@ -1352,7 +1352,7 @@ module ThriftHiveMetastore
       result = Get_partitions_ps_result.new()
       begin
         result.success = @handler.get_partitions_ps(args.db_name, args.tbl_name, args.part_vals, args.max_parts)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_partitions_ps', seqid)
@@ -1363,9 +1363,9 @@ module ThriftHiveMetastore
       result = Get_partitions_ps_with_auth_result.new()
       begin
         result.success = @handler.get_partitions_ps_with_auth(args.db_name, args.tbl_name, args.part_vals, args.max_parts, args.user_name, args.group_names)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partitions_ps_with_auth', seqid)
@@ -1376,7 +1376,7 @@ module ThriftHiveMetastore
       result = Get_partition_names_ps_result.new()
       begin
         result.success = @handler.get_partition_names_ps(args.db_name, args.tbl_name, args.part_vals, args.max_parts)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_partition_names_ps', seqid)
@@ -1387,9 +1387,9 @@ module ThriftHiveMetastore
       result = Get_partitions_by_filter_result.new()
       begin
         result.success = @handler.get_partitions_by_filter(args.db_name, args.tbl_name, args.filter, args.max_parts)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_partitions_by_filter', seqid)
@@ -1400,9 +1400,9 @@ module ThriftHiveMetastore
       result = Alter_partition_result.new()
       begin
         @handler.alter_partition(args.db_name, args.tbl_name, args.new_part)
-      rescue ::InvalidOperationException => o1
+      rescue HiveMetaStoreTypes::InvalidOperationException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'alter_partition', seqid)
@@ -1413,7 +1413,7 @@ module ThriftHiveMetastore
       result = Get_config_value_result.new()
       begin
         result.success = @handler.get_config_value(args.name, args.defaultValue)
-      rescue ::ConfigValSecurityException => o1
+      rescue HiveMetaStoreTypes::ConfigValSecurityException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_config_value', seqid)
@@ -1424,7 +1424,7 @@ module ThriftHiveMetastore
       result = Partition_name_to_vals_result.new()
       begin
         result.success = @handler.partition_name_to_vals(args.part_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'partition_name_to_vals', seqid)
@@ -1435,7 +1435,7 @@ module ThriftHiveMetastore
       result = Partition_name_to_spec_result.new()
       begin
         result.success = @handler.partition_name_to_spec(args.part_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'partition_name_to_spec', seqid)
@@ -1446,11 +1446,11 @@ module ThriftHiveMetastore
       result = Add_index_result.new()
       begin
         result.success = @handler.add_index(args.new_index, args.index_table)
-      rescue ::InvalidObjectException => o1
+      rescue HiveMetaStoreTypes::InvalidObjectException => o1
         result.o1 = o1
-      rescue ::AlreadyExistsException => o2
+      rescue HiveMetaStoreTypes::AlreadyExistsException => o2
         result.o2 = o2
-      rescue ::MetaException => o3
+      rescue HiveMetaStoreTypes::MetaException => o3
         result.o3 = o3
       end
       write_result(result, oprot, 'add_index', seqid)
@@ -1461,9 +1461,9 @@ module ThriftHiveMetastore
       result = Alter_index_result.new()
       begin
         @handler.alter_index(args.dbname, args.base_tbl_name, args.idx_name, args.new_idx)
-      rescue ::InvalidOperationException => o1
+      rescue HiveMetaStoreTypes::InvalidOperationException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'alter_index', seqid)
@@ -1474,9 +1474,9 @@ module ThriftHiveMetastore
       result = Drop_index_by_name_result.new()
       begin
         result.success = @handler.drop_index_by_name(args.db_name, args.tbl_name, args.index_name, args.deleteData)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'drop_index_by_name', seqid)
@@ -1487,9 +1487,9 @@ module ThriftHiveMetastore
       result = Get_index_by_name_result.new()
       begin
         result.success = @handler.get_index_by_name(args.db_name, args.tbl_name, args.index_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
-      rescue ::NoSuchObjectException => o2
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_index_by_name', seqid)
@@ -1500,9 +1500,9 @@ module ThriftHiveMetastore
       result = Get_indexes_result.new()
       begin
         result.success = @handler.get_indexes(args.db_name, args.tbl_name, args.max_indexes)
-      rescue ::NoSuchObjectException => o1
+      rescue HiveMetaStoreTypes::NoSuchObjectException => o1
         result.o1 = o1
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_indexes', seqid)
@@ -1513,7 +1513,7 @@ module ThriftHiveMetastore
       result = Get_index_names_result.new()
       begin
         result.success = @handler.get_index_names(args.db_name, args.tbl_name, args.max_indexes)
-      rescue ::MetaException => o2
+      rescue HiveMetaStoreTypes::MetaException => o2
         result.o2 = o2
       end
       write_result(result, oprot, 'get_index_names', seqid)
@@ -1524,7 +1524,7 @@ module ThriftHiveMetastore
       result = Create_role_result.new()
       begin
         result.success = @handler.create_role(args.role)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'create_role', seqid)
@@ -1535,7 +1535,7 @@ module ThriftHiveMetastore
       result = Drop_role_result.new()
       begin
         result.success = @handler.drop_role(args.role_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'drop_role', seqid)
@@ -1546,7 +1546,7 @@ module ThriftHiveMetastore
       result = Get_role_names_result.new()
       begin
         result.success = @handler.get_role_names()
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_role_names', seqid)
@@ -1557,7 +1557,7 @@ module ThriftHiveMetastore
       result = Grant_role_result.new()
       begin
         result.success = @handler.grant_role(args.role_name, args.principal_name, args.principal_type, args.grantor, args.grantorType, args.grant_option)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'grant_role', seqid)
@@ -1568,7 +1568,7 @@ module ThriftHiveMetastore
       result = Revoke_role_result.new()
       begin
         result.success = @handler.revoke_role(args.role_name, args.principal_name, args.principal_type)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'revoke_role', seqid)
@@ -1579,7 +1579,7 @@ module ThriftHiveMetastore
       result = List_roles_result.new()
       begin
         result.success = @handler.list_roles(args.principal_name, args.principal_type)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'list_roles', seqid)
@@ -1590,7 +1590,7 @@ module ThriftHiveMetastore
       result = Get_privilege_set_result.new()
       begin
         result.success = @handler.get_privilege_set(args.hiveObject, args.user_name, args.group_names)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_privilege_set', seqid)
@@ -1601,7 +1601,7 @@ module ThriftHiveMetastore
       result = List_privileges_result.new()
       begin
         result.success = @handler.list_privileges(args.principal_name, args.principal_type, args.hiveObject)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'list_privileges', seqid)
@@ -1612,7 +1612,7 @@ module ThriftHiveMetastore
       result = Grant_privileges_result.new()
       begin
         result.success = @handler.grant_privileges(args.privileges)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'grant_privileges', seqid)
@@ -1623,7 +1623,7 @@ module ThriftHiveMetastore
       result = Revoke_privileges_result.new()
       begin
         result.success = @handler.revoke_privileges(args.privileges)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'revoke_privileges', seqid)
@@ -1634,7 +1634,7 @@ module ThriftHiveMetastore
       result = Get_delegation_token_result.new()
       begin
         result.success = @handler.get_delegation_token(args.renewer_kerberos_principal_name)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_delegation_token', seqid)
@@ -1645,7 +1645,7 @@ module ThriftHiveMetastore
       result = Get_delegation_token_with_signature_result.new()
       begin
         result.success = @handler.get_delegation_token_with_signature(args.renewer_kerberos_principal_name, args.token_signature)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'get_delegation_token_with_signature', seqid)
@@ -1656,7 +1656,7 @@ module ThriftHiveMetastore
       result = Renew_delegation_token_result.new()
       begin
         result.success = @handler.renew_delegation_token(args.token_str_form)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'renew_delegation_token', seqid)
@@ -1667,7 +1667,7 @@ module ThriftHiveMetastore
       result = Cancel_delegation_token_result.new()
       begin
         @handler.cancel_delegation_token(args.token_str_form)
-      rescue ::MetaException => o1
+      rescue HiveMetaStoreTypes::MetaException => o1
         result.o1 = o1
       end
       write_result(result, oprot, 'cancel_delegation_token', seqid)
@@ -1682,7 +1682,7 @@ module ThriftHiveMetastore
     DATABASE = 1
 
     FIELDS = {
-      DATABASE => {:type => ::Thrift::Types::STRUCT, :name => 'database', :class => ::Database}
+      DATABASE => {:type => ::Thrift::Types::STRUCT, :name => 'database', :class => HiveMetaStoreTypes::Database}
     }
 
     def struct_fields; FIELDS; end
@@ -1700,9 +1700,9 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::AlreadyExistsException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::InvalidObjectException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1736,9 +1736,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Database},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Database},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1774,9 +1774,9 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::InvalidOperationException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::InvalidOperationException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1810,7 +1810,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1843,7 +1843,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1861,7 +1861,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       DBNAME => {:type => ::Thrift::Types::STRING, :name => 'dbname'},
-      DB => {:type => ::Thrift::Types::STRUCT, :name => 'db', :class => ::Database}
+      DB => {:type => ::Thrift::Types::STRUCT, :name => 'db', :class => HiveMetaStoreTypes::Database}
     }
 
     def struct_fields; FIELDS; end
@@ -1878,8 +1878,8 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -1913,9 +1913,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Type},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Type},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -1931,7 +1931,7 @@ module ThriftHiveMetastore
     TYPE = 1
 
     FIELDS = {
-      TYPE => {:type => ::Thrift::Types::STRUCT, :name => 'type', :class => ::Type}
+      TYPE => {:type => ::Thrift::Types::STRUCT, :name => 'type', :class => HiveMetaStoreTypes::Type}
     }
 
     def struct_fields; FIELDS; end
@@ -1951,9 +1951,9 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::AlreadyExistsException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::InvalidObjectException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -1988,8 +1988,8 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2022,8 +2022,8 @@ module ThriftHiveMetastore
     O2 = 1
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::MAP, :name => 'success', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRUCT, :class => ::Type}},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::MAP, :name => 'success', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Type}},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2060,10 +2060,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::UnknownTableException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::UnknownDBException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::UnknownTableException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::UnknownDBException}
     }
 
     def struct_fields; FIELDS; end
@@ -2100,10 +2100,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::FieldSchema}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::UnknownTableException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::UnknownDBException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::FieldSchema}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::UnknownTableException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::UnknownDBException}
     }
 
     def struct_fields; FIELDS; end
@@ -2119,7 +2119,7 @@ module ThriftHiveMetastore
     TBL = 1
 
     FIELDS = {
-      TBL => {:type => ::Thrift::Types::STRUCT, :name => 'tbl', :class => ::Table}
+      TBL => {:type => ::Thrift::Types::STRUCT, :name => 'tbl', :class => HiveMetaStoreTypes::Table}
     }
 
     def struct_fields; FIELDS; end
@@ -2138,10 +2138,10 @@ module ThriftHiveMetastore
     O4 = 4
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::AlreadyExistsException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::InvalidObjectException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException},
-      O4 => {:type => ::Thrift::Types::STRUCT, :name => 'o4', :class => ::NoSuchObjectException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException},
+      O4 => {:type => ::Thrift::Types::STRUCT, :name => 'o4', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2178,8 +2178,8 @@ module ThriftHiveMetastore
     O3 = 2
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2215,7 +2215,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2249,7 +2249,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2285,9 +2285,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Table},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Table},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2307,7 +2307,7 @@ module ThriftHiveMetastore
     FIELDS = {
       DBNAME => {:type => ::Thrift::Types::STRING, :name => 'dbname'},
       TBL_NAME => {:type => ::Thrift::Types::STRING, :name => 'tbl_name'},
-      NEW_TBL => {:type => ::Thrift::Types::STRUCT, :name => 'new_tbl', :class => ::Table}
+      NEW_TBL => {:type => ::Thrift::Types::STRUCT, :name => 'new_tbl', :class => HiveMetaStoreTypes::Table}
     }
 
     def struct_fields; FIELDS; end
@@ -2324,8 +2324,8 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidOperationException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidOperationException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2341,7 +2341,7 @@ module ThriftHiveMetastore
     NEW_PART = 1
 
     FIELDS = {
-      NEW_PART => {:type => ::Thrift::Types::STRUCT, :name => 'new_part', :class => ::Partition}
+      NEW_PART => {:type => ::Thrift::Types::STRUCT, :name => 'new_part', :class => HiveMetaStoreTypes::Partition}
     }
 
     def struct_fields; FIELDS; end
@@ -2360,10 +2360,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::AlreadyExistsException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2402,10 +2402,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::AlreadyExistsException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2444,10 +2444,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::AlreadyExistsException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2488,8 +2488,8 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2530,8 +2530,8 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2569,9 +2569,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2613,9 +2613,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2653,9 +2653,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Partition},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Partition},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2693,9 +2693,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Partition}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Partition}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2737,9 +2737,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Partition}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Partition}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2777,7 +2777,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2816,8 +2816,8 @@ module ThriftHiveMetastore
     O1 = 1
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Partition}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Partition}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2861,9 +2861,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Partition}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Partition}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2903,7 +2903,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -2943,9 +2943,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Partition}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Partition}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -2965,7 +2965,7 @@ module ThriftHiveMetastore
     FIELDS = {
       DB_NAME => {:type => ::Thrift::Types::STRING, :name => 'db_name'},
       TBL_NAME => {:type => ::Thrift::Types::STRING, :name => 'tbl_name'},
-      NEW_PART => {:type => ::Thrift::Types::STRUCT, :name => 'new_part', :class => ::Partition}
+      NEW_PART => {:type => ::Thrift::Types::STRUCT, :name => 'new_part', :class => HiveMetaStoreTypes::Partition}
     }
 
     def struct_fields; FIELDS; end
@@ -2982,8 +2982,8 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidOperationException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidOperationException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3019,7 +3019,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::ConfigValSecurityException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::ConfigValSecurityException}
     }
 
     def struct_fields; FIELDS; end
@@ -3053,7 +3053,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3087,7 +3087,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::MAP, :name => 'success', :key => {:type => ::Thrift::Types::STRING}, :value => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3104,8 +3104,8 @@ module ThriftHiveMetastore
     INDEX_TABLE = 2
 
     FIELDS = {
-      NEW_INDEX => {:type => ::Thrift::Types::STRUCT, :name => 'new_index', :class => ::Index},
-      INDEX_TABLE => {:type => ::Thrift::Types::STRUCT, :name => 'index_table', :class => ::Table}
+      NEW_INDEX => {:type => ::Thrift::Types::STRUCT, :name => 'new_index', :class => HiveMetaStoreTypes::Index},
+      INDEX_TABLE => {:type => ::Thrift::Types::STRUCT, :name => 'index_table', :class => HiveMetaStoreTypes::Table}
     }
 
     def struct_fields; FIELDS; end
@@ -3124,10 +3124,10 @@ module ThriftHiveMetastore
     O3 = 3
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Index},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::AlreadyExistsException},
-      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Index},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::AlreadyExistsException},
+      O3 => {:type => ::Thrift::Types::STRUCT, :name => 'o3', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3149,7 +3149,7 @@ module ThriftHiveMetastore
       DBNAME => {:type => ::Thrift::Types::STRING, :name => 'dbname'},
       BASE_TBL_NAME => {:type => ::Thrift::Types::STRING, :name => 'base_tbl_name'},
       IDX_NAME => {:type => ::Thrift::Types::STRING, :name => 'idx_name'},
-      NEW_IDX => {:type => ::Thrift::Types::STRUCT, :name => 'new_idx', :class => ::Index}
+      NEW_IDX => {:type => ::Thrift::Types::STRUCT, :name => 'new_idx', :class => HiveMetaStoreTypes::Index}
     }
 
     def struct_fields; FIELDS; end
@@ -3166,8 +3166,8 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::InvalidOperationException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::InvalidOperationException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3208,8 +3208,8 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3247,9 +3247,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Index},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::NoSuchObjectException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::Index},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::NoSuchObjectException}
     }
 
     def struct_fields; FIELDS; end
@@ -3287,9 +3287,9 @@ module ThriftHiveMetastore
     O2 = 2
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Index}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::NoSuchObjectException},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Index}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::NoSuchObjectException},
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3327,7 +3327,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => ::MetaException}
+      O2 => {:type => ::Thrift::Types::STRUCT, :name => 'o2', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3343,7 +3343,7 @@ module ThriftHiveMetastore
     ROLE = 1
 
     FIELDS = {
-      ROLE => {:type => ::Thrift::Types::STRUCT, :name => 'role', :class => ::Role}
+      ROLE => {:type => ::Thrift::Types::STRUCT, :name => 'role', :class => HiveMetaStoreTypes::Role}
     }
 
     def struct_fields; FIELDS; end
@@ -3361,7 +3361,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3395,7 +3395,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3428,7 +3428,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRING}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3451,19 +3451,19 @@ module ThriftHiveMetastore
     FIELDS = {
       ROLE_NAME => {:type => ::Thrift::Types::STRING, :name => 'role_name'},
       PRINCIPAL_NAME => {:type => ::Thrift::Types::STRING, :name => 'principal_name'},
-      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => ::PrincipalType},
+      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => HiveMetaStoreTypes::PrincipalType},
       GRANTOR => {:type => ::Thrift::Types::STRING, :name => 'grantor'},
-      GRANTORTYPE => {:type => ::Thrift::Types::I32, :name => 'grantorType', :enum_class => ::PrincipalType},
+      GRANTORTYPE => {:type => ::Thrift::Types::I32, :name => 'grantorType', :enum_class => HiveMetaStoreTypes::PrincipalType},
       GRANT_OPTION => {:type => ::Thrift::Types::BOOL, :name => 'grant_option'}
     }
 
     def struct_fields; FIELDS; end
 
     def validate
-      unless @principal_type.nil? || ::PrincipalType::VALID_VALUES.include?(@principal_type)
+      unless @principal_type.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@principal_type)
         raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field principal_type!')
       end
-      unless @grantorType.nil? || ::PrincipalType::VALID_VALUES.include?(@grantorType)
+      unless @grantorType.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@grantorType)
         raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field grantorType!')
       end
     end
@@ -3478,7 +3478,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3498,13 +3498,13 @@ module ThriftHiveMetastore
     FIELDS = {
       ROLE_NAME => {:type => ::Thrift::Types::STRING, :name => 'role_name'},
       PRINCIPAL_NAME => {:type => ::Thrift::Types::STRING, :name => 'principal_name'},
-      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => ::PrincipalType}
+      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => HiveMetaStoreTypes::PrincipalType}
     }
 
     def struct_fields; FIELDS; end
 
     def validate
-      unless @principal_type.nil? || ::PrincipalType::VALID_VALUES.include?(@principal_type)
+      unless @principal_type.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@principal_type)
         raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field principal_type!')
       end
     end
@@ -3519,7 +3519,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3537,13 +3537,13 @@ module ThriftHiveMetastore
 
     FIELDS = {
       PRINCIPAL_NAME => {:type => ::Thrift::Types::STRING, :name => 'principal_name'},
-      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => ::PrincipalType}
+      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => HiveMetaStoreTypes::PrincipalType}
     }
 
     def struct_fields; FIELDS; end
 
     def validate
-      unless @principal_type.nil? || ::PrincipalType::VALID_VALUES.include?(@principal_type)
+      unless @principal_type.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@principal_type)
         raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field principal_type!')
       end
     end
@@ -3557,8 +3557,8 @@ module ThriftHiveMetastore
     O1 = 1
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Role}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::Role}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3576,7 +3576,7 @@ module ThriftHiveMetastore
     GROUP_NAMES = 3
 
     FIELDS = {
-      HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => ::HiveObjectRef},
+      HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => HiveMetaStoreTypes::HiveObjectRef},
       USER_NAME => {:type => ::Thrift::Types::STRING, :name => 'user_name'},
       GROUP_NAMES => {:type => ::Thrift::Types::LIST, :name => 'group_names', :element => {:type => ::Thrift::Types::STRING}}
     }
@@ -3595,8 +3595,8 @@ module ThriftHiveMetastore
     O1 = 1
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::PrincipalPrivilegeSet},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => HiveMetaStoreTypes::PrincipalPrivilegeSet},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3615,14 +3615,14 @@ module ThriftHiveMetastore
 
     FIELDS = {
       PRINCIPAL_NAME => {:type => ::Thrift::Types::STRING, :name => 'principal_name'},
-      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => ::PrincipalType},
-      HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => ::HiveObjectRef}
+      PRINCIPAL_TYPE => {:type => ::Thrift::Types::I32, :name => 'principal_type', :enum_class => HiveMetaStoreTypes::PrincipalType},
+      HIVEOBJECT => {:type => ::Thrift::Types::STRUCT, :name => 'hiveObject', :class => HiveMetaStoreTypes::HiveObjectRef}
     }
 
     def struct_fields; FIELDS; end
 
     def validate
-      unless @principal_type.nil? || ::PrincipalType::VALID_VALUES.include?(@principal_type)
+      unless @principal_type.nil? || HiveMetaStoreTypes::PrincipalType::VALID_VALUES.include?(@principal_type)
         raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Invalid value of field principal_type!')
       end
     end
@@ -3636,8 +3636,8 @@ module ThriftHiveMetastore
     O1 = 1
 
     FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::HiveObjectPrivilege}},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => HiveMetaStoreTypes::HiveObjectPrivilege}},
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3653,7 +3653,7 @@ module ThriftHiveMetastore
     PRIVILEGES = 1
 
     FIELDS = {
-      PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => ::PrivilegeBag}
+      PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => HiveMetaStoreTypes::PrivilegeBag}
     }
 
     def struct_fields; FIELDS; end
@@ -3671,7 +3671,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3687,7 +3687,7 @@ module ThriftHiveMetastore
     PRIVILEGES = 1
 
     FIELDS = {
-      PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => ::PrivilegeBag}
+      PRIVILEGES => {:type => ::Thrift::Types::STRUCT, :name => 'privileges', :class => HiveMetaStoreTypes::PrivilegeBag}
     }
 
     def struct_fields; FIELDS; end
@@ -3705,7 +3705,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3739,7 +3739,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3775,7 +3775,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3809,7 +3809,7 @@ module ThriftHiveMetastore
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::I64, :name => 'success'},
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
@@ -3841,7 +3841,7 @@ module ThriftHiveMetastore
     O1 = 1
 
     FIELDS = {
-      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => ::MetaException}
+      O1 => {:type => ::Thrift::Types::STRUCT, :name => 'o1', :class => HiveMetaStoreTypes::MetaException}
     }
 
     def struct_fields; FIELDS; end
